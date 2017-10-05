@@ -63,24 +63,14 @@ installNodeModules
 
 #PORT=4000 node app
 
-cd ..
-cd balance_transfer
+#cd ..
+#cd balance_transfer
 
 
-docker build -t 1wbc/node-app .
 
 
-#docker network connect bridge peer0.org1.example.com
-#docker network connect bridge peer1.org1.example.com
-#docker network connect bridge peer0.org2.example.com
-#docker network connect bridge peer1.org2.example.com
+## Run following by cli
 
+#docker build -t 1wbc/node-app .
 
-docker run --name 1wbc_node --network=bridge -p 9999:4000 1wbc/node-app
-
-#docker run -v /root/fabric-copy/balance-transfer:/usr/src/app --name 1wbc_node --net=bridge -p 9999:4000 1wbc/node-app
-
-
-#docker build -t 1wbcfab/node-app .
-#docker run --name 1wbcfab_node --net=net_basic -p 9999:4000 1wbcfab/node-app
-
+#docker run --name 1wbc_node --network=bridge -p 9999:4000 1wbc/node-app

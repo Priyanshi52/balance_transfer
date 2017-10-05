@@ -11,7 +11,7 @@ A sample Node.js app to demonstrate **__fabric-client__** & **__fabric-ca-client
 * [Download Docker images](http://hyperledger-fabric.readthedocs.io/en/latest/samples.html#binaries)
 
 ```
-cd fabric-samples/balance-transfer/
+cd balance_transfer/
 ```
 
 Once you have completed the above setup, you will have provisioned a local network with the following docker container configuration:
@@ -19,6 +19,10 @@ Once you have completed the above setup, you will have provisioned a local netwo
 * 2 CAs
 * A SOLO orderer
 * 4 peers (2 peers per Org)
+
+After running ./runApp.sh script run the following docker commands:
+* Build docker image
+* Run Dockerized node.js app and joing the default network
 
 #### Artifacts
 * Crypto material has been generated using the **cryptogen** tool from Hyperledger Fabric and mounted to all peers, the orderering node and CA containers. More details regarding the cryptogen tool are available [here](http://hyperledger-fabric.readthedocs.io/en/latest/build_network.html#crypto-generator).
@@ -61,7 +65,7 @@ PORT=4000 node app
 ##### Terminal Window 1
 
 ```
-cd fabric-samples/balance-transfer
+cd balance_transfer
 
 ./runApp.sh
 
