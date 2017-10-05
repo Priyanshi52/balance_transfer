@@ -8,7 +8,7 @@
 		"org1": {
 			"name": "peerOrg1",
 			"mspid": "Org1MSP",
-			"ca": "https://localhost:7054",   // Server IP
+			"ca": "https://ca.org1.example.com:7054",  
 			"peers": {
 				"peer1": {
 					"requests": "grpcs://peer0.org1.example.com:7051",
@@ -31,7 +31,7 @@
 		"org2": {
 			"name": "peerOrg2",
 			"mspid": "Org2MSP",
-			"ca": "https://localhost:8054",  // Server IP
+			"ca": "https://ca.org2.example.com:8054", 
 			"peers": {
 				"peer1": {
 					"requests": "grpcs://peer0.org2.example.com:8051",
