@@ -72,10 +72,6 @@ services:
       - CORE_PEER_ID=peer0.org1.example.com
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
     ports:
       - 7051:7051
       - 7053:7053
@@ -93,10 +89,6 @@ services:
       - CORE_PEER_ID=peer1.org1.example.com
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_ADDRESS=peer1.org1.example.com:7051
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
     ports:
       - 7056:7051
       - 7058:7053
@@ -114,10 +106,6 @@ services:
       - CORE_PEER_ID=peer0.org2.example.com
       - CORE_PEER_LOCALMSPID=Org2MSP
       - CORE_PEER_ADDRESS=peer0.org2.example.com:7051
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
     ports:
       - 8051:7051
       - 8053:7053
@@ -135,10 +123,6 @@ services:
       - CORE_PEER_ID=peer1.org2.example.com
       - CORE_PEER_LOCALMSPID=Org2MSP
       - CORE_PEER_ADDRESS=peer1.org2.example.com:7051
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
     ports:
       - 8056:7051
       - 8058:7053
