@@ -109,7 +109,8 @@ function getErrorMessage(field) {
 app.post('/testPost',function(req,res){
     var foo = req.body.foo;
     var bar = req.body.FOO;
-    res.json({"foo":foo,"FOO":bar});
+    //res.json({"foo":foo,"FOO":bar});
+    res.json({"foo":"Forza","FOO":"Juve"});
 });
 
 app.post('/test2', function(req,res){

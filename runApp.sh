@@ -76,7 +76,7 @@ docker build -t 1wbc/node-app .
 #docker network connect bridge peer1.org2.example.com
 
 
-docker run --name 1wbc_node --net=bridge -p 9999:4000 1wbc/node-app
+docker run --name 1wbc_node --network=bridge -p 9999:4000 1wbc/node-app
 
 #docker run -v /root/fabric-copy/balance-transfer:/usr/src/app --name 1wbc_node --net=bridge -p 9999:4000 1wbc/node-app
 
