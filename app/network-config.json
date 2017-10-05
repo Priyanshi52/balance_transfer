@@ -31,7 +31,7 @@
 		"org2": {
 			"name": "peerOrg2",
 			"mspid": "Org2MSP",
-			"ca": "https://localhost.com:8054",  // Server IP
+			"ca": "https://localhost:8054",  // Server IP
 			"peers": {
 				"peer1": {
 					"requests": "grpcs://peer0.org2.example.com:8051",

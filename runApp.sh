@@ -74,4 +74,4 @@ cd balance_transfer
 docker build -t 1wbc/node-app .
 
 #### Run Dockerized node.js app, join to the default network and bridge the container port with 9999 server port
-docker run --name 1wbc_node --network=bridge -p 9999:4000 1wbc/node-app
+docker run --name 1wbc_node --network=artifacts_default -p 9999:4000 1wbc/node-app
