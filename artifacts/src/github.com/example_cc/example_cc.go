@@ -196,27 +196,27 @@ func (t *SimpleChaincode) query(stub shim.ChaincodeStubInterface, args []string)
 }
 
 // Test
-func (t *SimpleChaincode) test(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-	var err error
+// func (t *SimpleChaincode) test(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+// 	var err error
 	
-	if len(args) < 2 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 2")
-	}
+// 	if len(args) < 2 {
+// 		return nil, errors.New("Incorrect number of arguments. Expecting 2")
+// 	}
 	
-	fmt.Println("- start test fcn")
-	fmt.Println(args[0] + " - " + args[1])
+// 	fmt.Println("- start test fcn")
+// 	fmt.Println(args[0] + " - " + args[1])
 
-	//get the open trade struct
-	testAsBytes, err := stub.GetState(testStr)
-	if err != nil {
-		return nil, errors.New("Failed to get TXs")
-	}
-	var test []string
+// 	//get the open trade struct
+// 	testAsBytes, err := stub.GetState(testStr)
+// 	if err != nil {
+// 		return nil, errors.New("Failed to get TXs")
+// 	}
+// 	var test []string
 
-	json.Unmarshal(testAsBytes, &test)	
+// 	json.Unmarshal(testAsBytes, &test)	
 	
-	return nil, nil
-}
+// 	return nil, nil
+// }
 
 func main() {
 	err := shim.Start(new(SimpleChaincode))
