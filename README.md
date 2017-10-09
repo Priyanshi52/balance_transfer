@@ -292,4 +292,6 @@ To retrieve the IP Address for one of your network entities, issue the following
 docker inspect peer0 | grep IPAddress
 ```
 
-<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+### Acknowledgements
+This environment uses a very helpful <a href="https://github.com/Altoros/fabric-rest" target="_blank">fabric-rest</a> API server developed separately and instantiated from its docker image.
+The scripts are inspired by <a href="https://github.com/hyperledger/fabric-samples/tree/release/balance-transfer" target="_blank">balance-transfer</a> of Hyperledger Fabric samples.
