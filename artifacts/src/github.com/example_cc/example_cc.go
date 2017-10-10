@@ -18,6 +18,7 @@ package main
 
 
 import (
+	"encoding/json"
 	"fmt"
 	"strconv"
 
@@ -29,6 +30,15 @@ var logger = shim.NewLogger("example_cc0")
 
 // SimpleChaincode example simple Chaincode implementation
 type SimpleChaincode struct {
+}
+
+// Define the car structure, with 4 properties.  Structure tags are used by encoding/json library
+type Trx struct {
+        UserID   string `json:"userid"`
+        FirstName  string `json:"firstname"`
+        LastName string `json:"lastname"`
+        Amount  string `json:"amount"`
+        Currency string `json:"currency"`
 }
 
 func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface) pb.Response  {
@@ -83,9 +93,18 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 		// queries an entity state
 		return t.query(stub, args)
 	}
+
 	if function == "move" {
 		// Deletes an entity from its state
 		return t.move(stub, args)
+	}
+
+    if function == "createTrx" {
+            return t.createTrx(stub, args)
+    }
+
+    if function == "queryTrx" {
+		return t.queryTrx(stub, args)
 	}
 
 	logger.Errorf("Unknown action, check the first argument, must be one of 'delete', 'query', or 'move'. But got: %v", args[0])
@@ -136,7 +155,7 @@ func (t *SimpleChaincode) move(stub shim.ChaincodeStubInterface, args []string) 
 	logger.Infof("Aval = %d, Bval = %d\n", Aval, Bval)
 
 	// Write the state back to the ledger
-	err = stub.PutState(A, []byte(strconv.Itoa(Aval)))
+	err = stub.PutState(A, []byte( .Itoa(Aval)))
 	if err != nil {
 		return shim.Error(err.Error())
 	}
@@ -195,28 +214,30 @@ func (t *SimpleChaincode) query(stub shim.ChaincodeStubInterface, args []string)
 	return shim.Success(Avalbytes)
 }
 
-// Test
-// func (t *SimpleChaincode) test(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-// 	var err error
-	
-// 	if len(args) < 2 {
-// 		return nil, errors.New("Incorrect number of arguments. Expecting 2")
-// 	}
-	
-// 	fmt.Println("- start test fcn")
-// 	fmt.Println(args[0] + " - " + args[1])
+func (t *SimpleChaincode) createTrx(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 
-// 	//get the open trade struct
-// 	testAsBytes, err := stub.GetState(testStr)
-// 	if err != nil {
-// 		return nil, errors.New("Failed to get TXs")
-// 	}
-// 	var test []string
+        if len(args) != 6 {
+                return shim.Error("Incorrect number of arguments. Expecting 5")
+        }
 
-// 	json.Unmarshal(testAsBytes, &test)	
-	
-// 	return nil, nil
-// }
+        var trx = Trx{UserID: args[1], FirstName: args[2], LastName: args[3], Amount: args[4], Currency: args[5]}
+
+        trxAsBytes, _ := json.Marshal(trx)
+        stub.PutState(args[0], trxAsBytes)
+
+        return shim.Success(nil)
+}
+
+func (t *SimpleChaincode) queryTrx(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+
+	if len(args) != 1 {
+		return shim.Error("Incorrect number of arguments. Expecting 1")
+	}
+
+	trxAsBytes, _ := stub.GetState(args[0])
+	return shim.Success(trxAsBytes)
+}
+
 
 func main() {
 	err := shim.Start(new(SimpleChaincode))
