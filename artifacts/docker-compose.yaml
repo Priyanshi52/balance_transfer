@@ -136,7 +136,7 @@ services:
     image: maxxx1313/fabric-rest
     container_name: api.org1.example.com
     ports:
-      - 4000:4000
+      - 9999:4000
     environment:
       - ORG=org1
       - PORT=4000
