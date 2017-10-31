@@ -225,7 +225,7 @@ func (t *SimpleChaincode) move(stub shim.ChaincodeStubInterface, args []string) 
 	logger.Infof("Aval = %d, Bval = %d\n", Aval, Bval)
 
 	// Write the state back to the ledger
-	err = stub.PutState(A, []byte( .Itoa(Aval)))
+	err = stub.PutState(A, []byte(strconv.Itoa(Aval)))
 	if err != nil {
 		return shim.Error(err.Error())
 	}
@@ -295,7 +295,8 @@ func (t *SimpleChaincode) createBill(stub shim.ChaincodeStubInterface, args []st
         var bill = Bill{ID: args[0], BillID: args[1], RecipientID: args[2], UserID: args[3], FirstName: args[4], LastName: args[5], BillDate: args[6], BillDueDate: args[7], CreatedAt: args[8], Description: args[9], Amount: args[10], Currency: args[11], Image: args[12], Timestamp: billTrTime}
 
         billAsBytes, _ := json.Marshal(bill)
-        stub.PutState("BILL"+strconv.Itoa(args[0]), billAsBytes)
+        stub.PutState("BILL"+args[0], billAsBytes)
+        //stub.PutState("BILL"+strconv.Itoa(args[0]), billAsBytes)
         //stub.PutState(args[0], billAsBytes)
 
 
@@ -370,7 +371,8 @@ func (t *SimpleChaincode) createPayment(stub shim.ChaincodeStubInterface, args [
         var pay = Payment{ID: args[0], UserID: args[1], FirstName: args[2], LastName: args[3], Status: args[4], ExchRate: args[5], Fees: args[6], FxRate: args[7], SourceAmount: args[8], TargetAmount: args[9], SourceCurrency: args[10], TargetCurrency: args[11], Memo: args[12], ProcessedAt: args[13], CreatedAt: args[14], Timestamp: paymentTrTime}
 
         payAsBytes, _ := json.Marshal(pay)
-        stub.PutState("PAYMENT"+strconv.Itoa(args[0]), payAsBytes)
+        stub.PutState("PAYMENT"+args[0], payAsBytes)
+        //stub.PutState("PAYMENT"+strconv.Itoa(args[0]), payAsBytes)
         stub.PutState(args[0], payAsBytes)
 
 
@@ -652,19 +654,22 @@ func inTimeSpan(start, end, check time.Time) bool {
 
 func (t *SimpleChaincode) queryByDate(stub shim.ChaincodeStubInterface, args []string) pb.Response {
     logger.Info("########### queryByDate ###########")
-        //  From           To
-        // "2015-10-26"   "2017-11-20"
+        //  From           To              by date
+        // "2015-10-26"   "2017-11-20"     BillDate/BillDueDate/CreatedAt
         if len(args) < 2 {
                 return shim.Error("Incorrect number of arguments. Expecting 2")
         }
 
         fromDate, _ := time.Parse("2006-01-02", args[0])
         toDate, _ := time.Parse("2006-01-02", args[1])
-/*        dateType := args[2]
+        targetedDate := args[2]
+        if targetedDate == "" {
+        	targetedDate = "BillDueDate"
+        }
 
-        if (dateType != 'BillDate' || dateType != 'BillDueDate' || dateType != 'CreatedAt') {
-        	return shim.Error("Error: Check the first argument. Bill date type must be one of 'BillDate', 'BillDueDate' or 'CreatedAt'.  But got: %v", dateType)
-        }*/
+        if strings.TrimSpace(targetedDate) != "BillDate" || strings.TrimSpace(targetedDate) != "BillDueDate" || strings.TrimSpace(targetedDate) != "CreatedAt" {
+        	return shim.Error(fmt.Sprintf("Error: Check the third argument. Targeted Bill date must be one of 'BillDate', 'BillDueDate' or 'CreatedAt'.  But got: %v", targetedDate))
+        }
 
 		// Check Bill index if it's not empty
 		blAsbytes, err := stub.GetState(billIndexStr)	
@@ -678,10 +683,23 @@ func (t *SimpleChaincode) queryByDate(stub shim.ChaincodeStubInterface, args []s
 		json.Unmarshal(blAsbytes, &bills)
 
 		var founded AllBills
+		var bill_date time.Time
+
 		for i := range bills.Bills{
 
-			bill_date, _ := time.Parse("2006-01-02", bills.Bills[i].BillDueDate)
-			fmt.Println("Bill Date a%", bills.Bills[i].BillDueDate)
+			if (args[2] == "BillDate") {
+				bill_date, _ = time.Parse("2006-01-02", bills.Bills[i].BillDate)
+				fmt.Println("Bill Date a%", bills.Bills[i].BillDate)
+			} else if (args[2] == "BillDueDate") {
+				bill_date, _ = time.Parse("2006-01-02", bills.Bills[i].BillDueDate)
+				fmt.Println("Bill Date a%", bills.Bills[i].BillDueDate)
+			} else if (args[2] == "CreatedAt") {
+				bill_date, _ = time.Parse("2006-01-02", bills.Bills[i].CreatedAt)
+				fmt.Println("Bill Date a%", bills.Bills[i].CreatedAt)
+			} else {
+                bill_date, _ = time.Parse("2006-01-02", bills.Bills[i].BillDueDate)
+            }
+			
 			if err == nil {}
 		    if inTimeSpan(fromDate, toDate, bill_date) {
 		        fmt.Println(bill_date, "is between", fromDate, "and", toDate, ".")
